@@ -22,24 +22,16 @@ def get_html(url):
 def parse_timetable_from_manaba(html: str):
     soup = BeautifulSoup(html, 'html.parser')
     table = soup.find("table", class_="stdlist")
-
-    # ヘッダーから曜日のリストを取得
     days = []
-    for th in table.find("tr", class_="title").find_all("th")[1:]:  # 最初の1列目は時限列なので除く
+    for th in table.find("tr", class_="title").find_all("th")[1:]:
         days.append(th.text.strip())
-
     timetable_data = []
-
-    # 時限ごとの行を解析
-    for tr in table.find_all("tr")[1:]:  # 最初の行はヘッダーなので除く
+    for tr in table.find_all("tr")[1:]:
         tds = tr.find_all("td")
         if not tds:
             continue
-
-        period = tds[0].text.strip()  # 時限番号
-
-        # 各曜日の列を処理
-        for i, td in enumerate(tds[1:]):  # 最初の列は時限列なので除く
+        period = tds[0].text.strip()
+        for i, td in enumerate(tds[1:]):
             a_tag = td.find("a")
             if a_tag:
                 title = a_tag.text.strip()
@@ -50,5 +42,4 @@ def parse_timetable_from_manaba(html: str):
                     "title": title,
                     "href": href
                 })
-
     return timetable_data
