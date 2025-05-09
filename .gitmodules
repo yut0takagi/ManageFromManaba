@@ -1,3 +1,0 @@
-[submodule "mcp-rag-server"]
-	path = mcp-rag-server
-	url = git@github.com:karaage0703/mcp-rag-server.git
